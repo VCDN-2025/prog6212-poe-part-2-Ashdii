@@ -1,0 +1,396 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "CMCSystem - Home";
+}
+
+<style>
+    /* Home Page Specific Styles */
+    .hero-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 80px 0;
+        border-radius: 20px;
+        margin-bottom: 3rem;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        position: relative;
+        overflow: hidden;
+    }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            transform: rotate(30deg);
+            opacity: 0.3;
+        }
+
+    .welcome-header {
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        font-size: 3.5rem;
+        text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
+    }
+
+    .subtitle {
+        font-size: 1.6rem;
+        margin-bottom: 2.5rem;
+        font-weight: 300;
+        opacity: 0.9;
+    }
+
+    .action-card {
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+        transition: all 0.4s ease;
+        margin-bottom: 2rem;
+        overflow: hidden;
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        border-left: 5px solid;
+    }
+
+        .action-card:nth-child(1) {
+            border-left-color: #667eea;
+        }
+
+        .action-card:nth-child(2) {
+            border-left-color: #4facfe;
+        }
+
+        .action-card:nth-child(3) {
+            border-left-color: #43e97b;
+        }
+
+        .action-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+        }
+
+        .action-card a {
+            display: flex;
+            align-items: center;
+            padding: 2rem;
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+        }
+
+            .action-card a:hover {
+                color: #667eea;
+                background-color: rgba(102, 126, 234, 0.05);
+            }
+
+    .action-icon {
+        margin-right: 15px;
+        font-size: 2rem;
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+    }
+
+    .action-card:nth-child(1) .action-icon {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+    }
+
+    .action-card:nth-child(2) .action-icon {
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+    }
+
+    .action-card:nth-child(3) .action-icon {
+        background: linear-gradient(135deg, #43e97b, #38f9d7);
+    }
+
+    /* Feature cards */
+    .feature-card {
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+        transition: all 0.4s ease;
+        background: white;
+        height: 100%;
+        padding: 2rem;
+        text-align: center;
+        border-top: 5px solid;
+    }
+
+        .feature-card:nth-child(1) {
+            border-top-color: #667eea;
+        }
+
+        .feature-card:nth-child(2) {
+            border-top-color: #4facfe;
+        }
+
+        .feature-card:nth-child(3) {
+            border-top-color: #43e97b;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+    .feature-icon {
+        font-size: 3.5rem;
+        margin-bottom: 1.5rem;
+        display: inline-block;
+        padding: 20px;
+        border-radius: 20px;
+        color: white;
+    }
+
+    .feature-card:nth-child(1) .feature-icon {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+    }
+
+    .feature-card:nth-child(2) .feature-icon {
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+    }
+
+    .feature-card:nth-child(3) .feature-icon {
+        background: linear-gradient(135deg, #43e97b, #38f9d7);
+    }
+
+    .feature-card h5 {
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: #2c3e50;
+    }
+
+    .feature-card p {
+        color: #7f8c8d;
+        line-height: 1.6;
+    }
+
+    /* Stats section */
+    .stats-section {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        padding: 60px 0;
+        border-radius: 20px;
+        margin: 4rem 0;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    }
+
+    .stat-item {
+        text-align: center;
+    }
+
+    .stat-number {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .stat-label {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        font-weight: 500;
+    }
+
+    /* Animation */
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animated {
+        animation: fadeInUp 0.8s ease forwards;
+    }
+
+    .delay-1 {
+        animation-delay: 0.2s;
+    }
+
+    .delay-2 {
+        animation-delay: 0.4s;
+    }
+
+    .delay-3 {
+        animation-delay: 0.6s;
+    }
+
+    /* Section titles */
+    .section-title {
+        text-align: center;
+        margin-bottom: 3rem;
+        color: #2c3e50;
+        font-weight: 700;
+        position: relative;
+        padding-bottom: 15px;
+    }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+    /* Responsive for home page */
+    @@media (max-width: 768px) {
+        .welcome-header {
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+        }
+
+        .action-card a {
+            font-size: 1.1rem;
+            padding: 1.5rem;
+        }
+
+        .action-icon {
+            font-size: 1.6rem;
+            width: 50px;
+            height: 50px;
+        }
+
+        .hero-section {
+            padding: 60px 0;
+        }
+    }
+</style>
+
+<div class="hero-section text-center">
+    <div class="container">
+        <h1 class="welcome-header animated">Welcome to CMC System</h1>
+        <p class="subtitle animated delay-1">Your Advanced Customer Claims Management Solution</p>
+
+        <div class="row justify-content-center mt-5">
+            <div class="col-lg-8">
+                <div class="action-card animated delay-1">
+                    <a href="/Claim">
+                        <div class="action-icon">📋</div>
+                        View Submitted Claims
+                    </a>
+                </div>
+                <div class="action-card animated delay-2">
+                    <a href="/Claim/Create">
+                        <div class="action-icon">➕</div>
+                        Submit a New Claim
+                    </a>
+                </div>
+                <div class="action-card animated delay-3">
+                    <a href="/Home/Profile">
+                        <div class="action-icon">👤</div>
+                        My Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <h3 class="section-title">Why Choose CMCSystem?</h3>
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="feature-card animated">
+                <div class="feature-icon">⚡</div>
+                <h5>Fast Processing</h5>
+                <p>Quick and efficient claims processing with our advanced automated system and real-time tracking</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="feature-card animated delay-1">
+                <div class="feature-icon">🛡️</div>
+                <h5>Secure & Reliable</h5>
+                <p>Your data is protected with enterprise-grade security and 99.9% uptime guarantee</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="feature-card animated delay-2">
+                <div class="feature-icon">📊</div>
+                <h5>Smart Analytics</h5>
+                <p>Gain valuable insights with comprehensive reporting and predictive analytics tools</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="stats-section">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3 mb-4">
+                <div class="stat-item">
+                    <div class="stat-number">10K+</div>
+                    <div class="stat-label">Claims Processed</div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Support Available</div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="stat-item">
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Uptime</div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="stat-item">
+                    <div class="stat-number">4.8/5</div>
+                    <div class="stat-label">User Rating</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Enhanced animation on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.animated');
+            elements.forEach((el, index) => {
+                el.style.animationDelay = `${index * 0.2}s`;
+            });
+
+            // Add intersection observer for scroll animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.feature-card, .action-card').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        });
+    </script>
+}

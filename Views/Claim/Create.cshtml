@@ -1,0 +1,562 @@
+﻿@model CMCSystem.Models.Claim
+@{
+    ViewData["Title"] = "Submit New Claim";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CMCSystem</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --success-color: #43e97b;
+            --warning-color: #f5576c;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+            body::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                right: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(circle, rgba(102, 126, 234, 0.05) 1px, transparent 1px);
+                background-size: 50px 50px;
+                transform: rotate(30deg);
+                z-index: -1;
+            }
+
+        .container {
+            flex: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+            .page-header::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+                background-size: 30px 30px;
+                transform: rotate(30deg);
+            }
+
+        .header-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .claim-form {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            padding: 3rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+            .claim-form::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 5px;
+                background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
+
+            .form-label i {
+                margin-right: 10px;
+                font-size: 1.2rem;
+            }
+
+        .form-control, .form-select {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1rem 1.2rem;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            background: #f8f9fa;
+        }
+
+            .form-control:focus, .form-select:focus {
+                border-color: var(--primary-color);
+                box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
+                background: white;
+                transform: translateY(-2px);
+            }
+
+        textarea.form-control {
+            min-height: 140px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        .file-upload {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border: 3px dashed #ced4da;
+            border-radius: 15px;
+            padding: 2.5rem;
+            text-align: center;
+            margin-top: 0.5rem;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .file-upload:hover {
+                border-color: var(--primary-color);
+                background: linear-gradient(135deg, #e8f4fe, #dbeafe);
+                transform: translateY(-3px);
+                box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+            }
+
+            .file-upload.dragover {
+                border-color: var(--success-color);
+                background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            }
+
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .file-upload:hover .upload-icon {
+            transform: scale(1.1);
+            color: var(--secondary-color);
+        }
+
+        .form-text {
+            color: #6c757d;
+            font-style: italic;
+            margin-top: 0.5rem;
+            padding-left: 2rem;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            box-shadow: 0 6px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            min-width: 160px;
+            font-size: 1.1rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+            .btn-submit:hover {
+                background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+                transform: translateY(-3px);
+                box-shadow: 0 10px 25px rgba(102, 126, 234, 0.5);
+                color: white;
+            }
+
+        .btn-cancel {
+            background: linear-gradient(135deg, #6c757d, #5a6268);
+            border: none;
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            box-shadow: 0 6px 15px rgba(108, 117, 125, 0.4);
+            transition: all 0.3s ease;
+            min-width: 160px;
+            font-size: 1.1rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+            .btn-cancel:hover {
+                background: linear-gradient(135deg, #5a6268, #6c757d);
+                transform: translateY(-3px);
+                box-shadow: 0 10px 25px rgba(108, 117, 125, 0.5);
+                color: white;
+            }
+
+        .form-actions {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .form-section {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #f1f3f4;
+        }
+
+            .form-section:last-of-type {
+                border-bottom: none;
+                margin-bottom: 1rem;
+            }
+
+        .section-title {
+            color: var(--secondary-color);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+        }
+
+            .section-title i {
+                margin-right: 10px;
+                background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+        /* Animation for form elements */
+        .form-group {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        
+
+        {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        /* Success message styling */
+        .alert-success {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border: none;
+            border-radius: 12px;
+            border-left: 5px solid var(--success-color);
+            color: #155724;
+            padding: 1.5rem;
+        }
+
+        
+        {
+            padding: 0 10px;
+        }
+
+        .claim-form {
+            padding: 2rem 1.5rem;
+        }
+
+        .form-actions {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .btn-submit, .btn-cancel {
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .page-header {
+            padding: 1.5rem;
+        }
+
+        }
+
+        /* File upload preview */
+        .file-preview {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #e8f5e8;
+            border-radius: 10px;
+            border-left: 4px solid var(--success-color);
+            display: none;
+        }
+
+            .file-preview.show {
+                display: block;
+                animation: fadeIn 0.5s ease;
+            }
+
+        
+
+        {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .file-icon {
+            font-size: 1.5rem;
+            color: var(--success-color);
+        }
+
+        /* Character counter for textarea */
+        .char-counter {
+            text-align: right;
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-top: 0.5rem;
+        }
+
+            .char-counter.warning {
+                color: var(--warning-color);
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header animated">
+            <i class="header-icon">📋</i>
+            <h1>Submit New Claim</h1>
+            <p class="mb-0">Complete the form below to submit your claim request</p>
+        </div>
+
+        <div class="claim-form animated">
+            <form asp-action="Create" enctype="multipart/form-data" method="post" id="claimForm">
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-user"></i> Passenger Information</h3>
+
+                    <div class="form-group mb-4" style="animation-delay: 0.1s">
+                        <label class="form-label"><i class="fas fa-user-circle"></i> Passenger Name</label>
+                        <input asp-for="PassengerName" class="form-control" placeholder="Enter passenger's full name" required />
+                    </div>
+
+                    <div class="form-group mb-4" style="animation-delay: 0.2s">
+                        <label class="form-label"><i class="fas fa-tag"></i> Claim Type</label>
+                        <select asp-for="ClaimType" class="form-select" required>
+                            <option selected disabled value="">Select claim type</option>
+                            <option value="Lost Baggage">🧳 Lost Baggage</option>
+                            <option value="Flight Delay">⏱️ Flight Delay</option>
+                            <option value="Damaged Item">📦 Damaged Item</option>
+                            <option value="Cancelled Flight">✈️ Cancelled Flight</option>
+                            <option value="Other">❓ Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-file-alt"></i> Claim Details</h3>
+
+                    <div class="form-group mb-4" style="animation-delay: 0.3s">
+                        <label class="form-label"><i class="fas fa-align-left"></i> Description</label>
+                        <textarea asp-for="Description" class="form-control"
+                                  placeholder="Please provide a detailed description of your claim including dates, flight numbers, and specific issues encountered"
+                                  required maxlength="1000"></textarea>
+                        <div class="char-counter"><span id="charCount">0</span>/1000 characters</div>
+                        <div class="form-text">Be as specific as possible to help us process your claim faster.</div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3 class="section-title"><i class="fas fa-paperclip"></i> Supporting Documents</h3>
+
+                    <div class="form-group mb-4" style="animation-delay: 0.4s">
+                        <label class="form-label"><i class="fas fa-file-upload"></i> Upload Supporting Document</label>
+                        <div class="file-upload" id="fileUploadArea">
+                            <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                            <p class="mb-2 fw-semibold">Drag & drop your file here</p>
+                            <p class="mb-2">or click to browse</p>
+                            <p id="fileName" class="small text-muted">Supports: PDF, DOCX, XLSX, JPG, PNG (Max: 10MB)</p>
+                        </div>
+                        <input id="fileInput" type="file" name="uploadedFile" class="d-none"
+                               accept=".pdf,.docx,.xlsx,.jpg,.jpeg,.png" />
+                        <div id="filePreview" class="file-preview">
+                            <div class="file-info">
+                                <i class="fas fa-file file-icon"></i>
+                                <div>
+                                    <strong id="previewFileName"></strong>
+                                    <div class="small" id="previewFileSize"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-submit">
+                        <i class="fas fa-paper-plane"></i> Submit Claim
+                    </button>
+                    <a href="/Claim" class="btn btn-cancel">
+                        <i class="fas fa-times"></i> Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Display selected file name and preview
+        document.getElementById('fileInput').addEventListener('change', function () {
+            const file = this.files[0];
+            if (file) {
+                const fileName = file.name;
+                const fileSize = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+
+                document.getElementById('fileName').textContent = fileName;
+                document.getElementById('previewFileName').textContent = fileName;
+                document.getElementById('previewFileSize').textContent = fileSize;
+                document.getElementById('filePreview').classList.add('show');
+
+                // Change icon based on file type
+                const fileIcon = document.querySelector('.file-icon');
+                if (fileName.endsWith('.pdf')) {
+                    fileIcon.className = 'fas fa-file-pdf file-icon';
+                } else if (fileName.endsWith('.docx')) {
+                    fileIcon.className = 'fas fa-file-word file-icon';
+                } else if (fileName.endsWith('.xlsx')) {
+                    fileIcon.className = 'fas fa-file-excel file-icon';
+                } else if (fileName.endsWith('.jpg') || fileName.endsWith('.jpeg') || fileName.endsWith('.png')) {
+                    fileIcon.className = 'fas fa-file-image file-icon';
+                } else {
+                    fileIcon.className = 'fas fa-file file-icon';
+                }
+            } else {
+                document.getElementById('filePreview').classList.remove('show');
+                document.getElementById('fileName').textContent = "Supports: PDF, DOCX, XLSX, JPG, PNG (Max: 10MB)";
+            }
+        });
+
+        // Click file upload area to trigger file input
+        document.getElementById('fileUploadArea').addEventListener('click', function() {
+            document.getElementById('fileInput').click();
+        });
+
+        // Drag and drop functionality
+        const fileUploadArea = document.getElementById('fileUploadArea');
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            fileUploadArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            fileUploadArea.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            fileUploadArea.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight() {
+            fileUploadArea.classList.add('dragover');
+        }
+
+        function unhighlight() {
+            fileUploadArea.classList.remove('dragover');
+        }
+
+        fileUploadArea.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            document.getElementById('fileInput').files = files;
+
+            // Trigger change event
+            const event = new Event('change');
+            document.getElementById('fileInput').dispatchEvent(event);
+        }
+
+        // Character counter for description textarea
+        const descriptionTextarea = document.querySelector('textarea[name="Description"]');
+        const charCounter = document.getElementById('charCount');
+
+        descriptionTextarea.addEventListener('input', function() {
+            const length = this.value.length;
+            charCounter.textContent = length;
+
+            if (length > 800) {
+                charCounter.classList.add('warning');
+            } else {
+                charCounter.classList.remove('warning');
+            }
+        });
+
+        // Form submission animation
+        document.getElementById('claimForm').addEventListener('submit', function(e) {
+            const submitBtn = this.querySelector('.btn-submit');
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            submitBtn.disabled = true;
+        });
+
+        // Animate form elements on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const formGroups = document.querySelectorAll('.form-group');
+            formGroups.forEach((group, index) => {
+                group.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+    </script>
+</body>
+</html>
